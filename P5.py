@@ -3,15 +3,13 @@
 from 1 to 10 without any remainder. What is the smallest positive number that 
 is evenly divisible by all of the numbers from 1 to 20
 '''
-import time
 
 def factorize(n):
     num=int(n)
-
     factors = []
     factored = False
     
-    while factored == False:
+    while not factored:
         for i in range(2,num+1):            
             if i == num:
                 factors.append(num)
@@ -27,27 +25,26 @@ def factorize(n):
 
 primeFactors = {}
 
-for i in range(4,6):
+for i in range(2,21):
     listFactors = factorize(i)
 
-    for j in range(0,len(listFactors)):
-        print(listFactors[j])
+    while listFactors:
+        target = min(listFactors)
+        counter = 0
+        while target in listFactors:
+            for j in listFactors:
+                if j == target:
+                    counter += 1
+                    listFactors.remove(target)
+        if primeFactors.get(target) is None:
+            primeFactors[target] = counter
 
+        elif primeFactors.get(target) < counter:
+            primeFactors.update({target: counter})
 
-#print(factorize(16))
-'''
-testDict = {
-    1:2,
-    2:1,
-    3:3
-}
-testDict.update({4:4})
-print(testDict)
+print(primeFactors)
 total = 1
-for i in testDict:
-    total*=i**(testDict.get(i))
-'''
-#print(total)
+for k in primeFactors:
+    total *= k ** primeFactors[k]
 
-
-# answer = 1*2*3*2*5*7*2*3*11*13*2*17*19
+print(total)
